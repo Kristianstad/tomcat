@@ -1,9 +1,10 @@
-name: Create and publish Docker image
+name: Create & publish Tomcat baseimage
 
 on: workflow_dispatch
 
 env:
   REGISTRY: ghcr.io
+  CONTEXT: tomcat
 
 jobs:
   build-and-push-image:
@@ -40,7 +41,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
-          context: .
+          context: ./${{ env.CONTEXT }}
           push: true
           tags: ${{ env.REGISTRY }}/${{ steps.repo.outputs.lowercase }}:${{ github.ref_name }}
           labels: ${{ steps.meta.outputs.labels }}
